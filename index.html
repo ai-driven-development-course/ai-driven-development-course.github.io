@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI駆動開発 要件定義からテストまで完全網羅 | Cursor・GitHub Copilot実践コース</title>
+  <meta name="description"
+    content="AI駆動開発で生産性5倍を実現。要件定義からテストまでのハンズオン実践コース。Cursor・GitHub Copilot等全ツール対応のプロンプトエンジニアリング理論でバイブコーディング・コードレビュー・リファクタリング・バグ対策を体系的に習得する唯一無二の短期集中講座。">
+  <!-- Website Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "AI駆動開発実践コース",
+    "alternateName": "AI駆動開発コース",
+    "url": "https://ai-driven-development-course.github.io/"
+  }
+  </script>
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="AI駆動開発実践コース">
+  <meta property="og:title" content="AI駆動開発実践コース | 短期集中型オンライン講座">
+  <meta property="og:description"
+    content="Cursor・GitHub Copilot対応で、生産性と品質向上の好循環を実現する体系的なAI駆動開発メソッドを、実践形式のハンズオンで学べる唯一無二の短期集中講座です。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ai-driven-development-course.github.io/">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+    * {
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-section {
+      background-image: url('/api/placeholder/1920/1080');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .highlight-box {
+      border-left: 4px solid #6366f1;
+    }
+
+    .card-shadow {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .feature-card {
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .cta-button {
+      transition: transform 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: scale(1.05);
+    }
+
+    .timeline-dot {
+      width: 24px;
+      height: 24px;
+      background-color: #6366f1;
+      border-radius: 50%;
+      position: absolute;
+      left: -12px;
+      border: 3px solid white;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: #d1d5db;
+    }
+
+    .curriculum-section {
+      counter-reset: curriculum;
+    }
+
+    .curriculum-item::before {
+      counter-increment: curriculum;
+      content: counter(curriculum);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: white;
+      background-color: #6366f1;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: -14px;
+      top: 0.75rem;
+    }
+
+    .limited-offer {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .timeline-dot {
+        left: -9px;
+        width: 18px;
+        height: 18px;
+      }
+
+      .curriculum-item::before {
+        width: 24px;
+        height: 24px;
+        left: -12px;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm py-4 sticky top-0 z-50">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="text-xl md:text-2xl font-bold gradient-text">AI駆動開発実践コース</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#about" class="text-gray-600 hover:text-indigo-600 transition">AI駆動開発実践コースとは</a>
+        <a href="#strengths" class="text-gray-600 hover:text-indigo-600 transition">3つの強み</a>
+        <a href="#curriculum" class="text-gray-600 hover:text-indigo-600 transition">カリキュラム</a>
+        <a href="#tech" class="text-gray-600 hover:text-indigo-600 transition">技術スタック</a>
+        <a href="#faq" class="text-gray-600 hover:text-indigo-600 transition">よくある質問</a>
+      </div>
+      <a href="#campaign" class="gradient-bg text-white px-4 py-2 rounded-md shadow-md font-medium cta-button">
+        早割登録
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section py-20 md:py-28">
+    <div class="container mx-auto px-4 hero-content text-center">
+      <h1 class="text-3xl md:text-5xl font-bold text-white mb-6">AI駆動開発で要件定義からテストまで</h1>
+      <p class="text-xl md:text-2xl text-white opacity-90 mb-8">開発スピードを5倍に加速し、修正・バグ対策工数を50%削減する<br>Cursor・GitHub
+        Copilot対応のAI駆動開発メソッドを習得せよ</p>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-12">
+        <div class="bg-white bg-opacity-90 px-6 py-4 rounded-lg">
+          <p class="text-gray-800 font-medium">
+            <i class="fas fa-rocket text-indigo-600 mr-2"></i> 開発スピードを5倍に加速
+          </p>
+        </div>
+        <div class="bg-white bg-opacity-90 px-6 py-4 rounded-lg">
+          <p class="text-gray-800 font-medium">
+            <i class="fas fa-shield-alt text-indigo-600 mr-2"></i> コードの品質を向上
+          </p>
+        </div>
+        <div class="bg-white bg-opacity-90 px-6 py-4 rounded-lg">
+          <p class="text-gray-800 font-medium">
+            <i class="fas fa-stopwatch text-indigo-600 mr-2"></i> 修正・バグ対策工数を50%削減
+          </p>
+        </div>
+      </div>
+      <a href="#campaign"
+        class="inline-block bg-white text-indigo-600 px-8 py-4 rounded-lg shadow-lg text-lg font-bold cta-button">
+        今すぐ早割登録でメールを受け取る
+        <i class="fas fa-arrow-right ml-2"></i>
+      </a>
+      <p class="text-white text-sm mt-4 opacity-80">※期間限定の特別キャンペーン実施中</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">AI駆動開発実践コースとは？</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div>
+          <div class="highlight-box pl-5 py-2 mb-8">
+            <p class="text-xl font-medium text-gray-700">
+              現役エンジニア 兼 受講者数30,000名超の<br>
+              <span class="text-indigo-600 font-bold">Udemyベストセラー講師 <a
+                  href="https://www.udemy.com/user/fu-tian-sheng-tai/" class="underline">Shota</a></span>
+              がプロデュース
+            </p>
+          </div>
+
+          <h3 class="text-2xl md:text-3xl font-bold mb-6">
+            <span class="gradient-text">"AI駆動開発で要件定義からテストまで"</span>
+          </h3>
+
+          <p class="text-lg text-gray-700 mb-6">
+            Cursor・GitHub Copilot対応で、生産性と品質向上の好循環を実現する体系的なAI駆動開発メソッドを、実践形式のハンズオンで学べる唯一無二の短期集中講座です。
+          </p>
+
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl"></i>
+                <p class="text-gray-800"><strong>開発スピードを5倍に加速</strong> - AIの力で効率的なコード生成</p>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl"></i>
+                <p class="text-gray-800"><strong>コードの可読性や保守性を向上</strong> - 一貫したコーディング規約と最適化</p>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-500 mt-1 mr-3 text-xl"></i>
+                <p class="text-gray-800"><strong>コード修正・バグ対策工数を約50%削減</strong> - AIで加速する改善作業</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="w-[600px] h-[400px] overflow-hidden rounded-lg shadow-xl mx-auto">
+            <img src="ai-driven-development.jpg" alt="AI駆動開発のイメージ" class="w-full h-full object-cover object-center"
+              style="object-position: 50% 40%;">
+          </div>
+
+          <div
+            class="absolute -bottom-5 -right-5 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg transform rotate-3">
+            <p class="font-bold">唯一無二の短期集中講座</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strengths Section -->
+  <section id="strengths" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">AI駆動開発メソッドの3つの強み</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Strength 1 -->
+        <div class="bg-white rounded-xl shadow-lg p-8 feature-card">
+          <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mb-6">
+            <i class="fas fa-lightbulb text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4">独自の効率化メソッド</h3>
+          <p class="text-gray-600 mb-4">
+            AIへの効果的な指示が成否を分けることに着目。プロンプトエンジニアリングの理論（メタプロンプト・グラウンディング）とAIツールのコンテキスト共有機能（@シンボルによるコンテキストメンション）を組み合わせた体系的なメソッドを確立。
+          </p>
+          <div class="rounded-lg bg-indigo-50 p-4 mt-4">
+            <p class="text-indigo-700 font-medium">
+              <i class="fas fa-star text-yellow-500 mr-2"></i>
+              単なる「AI使い方講座」ではなく、独自の体系的メソッドを習得
+            </p>
+          </div>
+        </div>
+
+        <!-- Strength 2 -->
+        <div class="bg-white rounded-xl shadow-lg p-8 feature-card">
+          <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mb-6">
+            <i class="fas fa-chart-line text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4">実プロジェクトでの効果実証</h3>
+          <p class="text-gray-600 mb-4">
+            現役エンジニアとして実際のプロジェクトでAIツールを活用し、チームの生産性が従来の5倍に向上。コード修正・バグ対策工数も約50%削減。
+          </p>
+          <div class="rounded-lg bg-indigo-50 p-4 mt-4">
+            <p class="text-indigo-700 font-medium">
+              <i class="fas fa-star text-yellow-500 mr-2"></i>
+              実績に裏付けられた、即効性のある実践的メソッド
+            </p>
+          </div>
+        </div>
+
+        <!-- Strength 3 -->
+        <div class="bg-white rounded-xl shadow-lg p-8 feature-card">
+          <div class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center mb-6">
+            <i class="fas fa-user-graduate text-white text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4">キャリアを左右する重要スキル</h3>
+          <p class="text-gray-600 mb-4">
+            AIツール時代に求められるエンジニアとしての市場価値を大きく高める、今すぐ習得すべき実践的スキルです。
+          </p>
+          <div class="rounded-lg bg-indigo-50 p-4 mt-4">
+            <p class="text-indigo-700 font-medium">
+              <i class="fas fa-star text-yellow-500 mr-2"></i>
+              AI時代を生き抜くエンジニアの必須スキルを最短で習得
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curriculum Section -->
+  <section id="curriculum" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">カリキュラム</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto mb-6"></div>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          実践的なハンズオンを通して、AIツールを活用した次世代の開発手法を体系的に学びます
+        </p>
+      </div>
+
+      <div class="curriculum-section">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+          <!-- Curriculum Left Column -->
+          <div>
+            <!-- Overview -->
+            <div class="relative pl-10 pb-12 border-l border-gray-200">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl font-bold text-indigo-600 mb-3">概要編</h3>
+              <div class="bg-gray-50 rounded-lg p-5 shadow-sm">
+                <ul class="space-y-2 text-gray-700">
+                  <li class="curriculum-item relative pl-6">Replitとは</li>
+                  <li class="curriculum-item relative pl-6">開発系AIツール比較（Replit, Cline, Devin）</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Requirements -->
+            <div class="relative pl-10 pb-12 border-l border-gray-200">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl font-bold text-indigo-600 mb-3">要件定義編</h3>
+              <div class="bg-gray-50 rounded-lg p-5 shadow-sm">
+                <ul class="space-y-2 text-gray-700">
+                  <li class="curriculum-item relative pl-6">バイブコーディング実践① - Agentとの要件調整</li>
+                  <li class="curriculum-item relative pl-6">バイブコーディング実践② - Agentによる開発作業</li>
+                  <li class="curriculum-item relative pl-6">バイブコーディング実践③ - Agentの成果物確認</li>
+                  <li class="curriculum-item relative pl-6">バイブコーディング実践④ - Agentへの変更依頼</li>
+                  <li class="curriculum-item relative pl-6">バイブコーディング実践⑤ - Agentの変更後成果物確認</li>
+                  <li class="curriculum-item relative pl-6">まとめ① - 効果的な要件に共通する５つの明確さ</li>
+                  <li class="curriculum-item relative pl-6">まとめ② - 効果的な要件の伝え方６か条とスコープの分割方法</li>
+                  <li class="curriculum-item relative pl-6">まとめ③ - スコープを分割する際の効果的な伝え方</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Code Review -->
+            <div class="relative pl-10 pb-12 border-l border-gray-200">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl font-bold text-indigo-600 mb-3">コードレビュー編</h3>
+              <div class="bg-gray-50 rounded-lg p-5 shadow-sm">
+                <ul class="space-y-2 text-gray-700">
+                  <li class="curriculum-item relative pl-6">レビュー実践① - GitHubリポジトリインポートと環境構築</li>
+                  <li class="curriculum-item relative pl-6">レビュー実践② - アーキテクチャとフォルダ・ファイル構成の確認</li>
+                  <li class="curriculum-item relative pl-6">レビュー実践③ - Reactフロントエンドコードの確認</li>
+                  <li class="curriculum-item relative pl-6">レビュー実践④ - Express + Drizzle ORMバックエンドコードの確認</li>
+                  <li class="curriculum-item relative pl-6">レビュー実践⑤ - PostgreSQLデータベーステーブルと環境変数の確認</li>
+                  <li class="curriculum-item relative pl-6">AI駆動レビュー実践① - Assistantの２つのモードと特徴</li>
+                  <li class="curriculum-item relative pl-6">AI駆動レビュー実践② - コード理解を加速する効果的な質問方法</li>
+                  <li class="curriculum-item relative pl-6">まとめ - Agent実装コード７つの特徴</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Curriculum Right Column -->
+          <div>
+            <!-- Code Fix -->
+            <div class="relative pl-10 pb-12 border-l border-gray-200">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl font-bold text-indigo-600 mb-3">コード修正編</h3>
+              <div class="bg-gray-50 rounded-lg p-5 shadow-sm">
+                <ul class="space-y-2 text-gray-700">
+                  <li class="curriculum-item relative pl-6">AI駆動リファクタリング実践① - AI駆動開発のためのコーディング規約設定</li>
+                  <li class="curriculum-item relative pl-6">AI駆動リファクタリング実践② - コード可読性向上のためのJSDocコメント追加</li>
+                  <li class="curriculum-item relative pl-6">AI駆動リファクタリング実践③ - 保守性向上のためのAPI呼出処理統一</li>
+                  <li class="curriculum-item relative pl-6">エラーハンドリング改善実践① - アプリケーション安定性を高める非同期エラー捕捉</li>
+                  <li class="curriculum-item relative pl-6">エラーハンドリング改善実践② - トラブルシューティング効率化のためのエラーログ出力</li>
+                  <li class="curriculum-item relative pl-6">エラーハンドリング改善実践③ - UX改善のためのHTTPステータスコード対応</li>
+                  <li class="curriculum-item relative pl-6">エラーハンドリング改善実践④ - UX改善のためのエラーメッセージ通知</li>
+                  <li class="curriculum-item relative pl-6">AI駆動リファクタリング実践④ - 保守性向上のためのエラーコード定数化</li>
+                  <li class="curriculum-item relative pl-6">AI駆動リファクタリング実践⑤ - 保守性向上のためのエラーハンドリング共通化</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Testing -->
+            <div class="relative pl-10 pb-12 border-l border-gray-200">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl font-bold text-indigo-600 mb-3">テスト編</h3>
+              <div class="bg-gray-50 rounded-lg p-5 shadow-sm">
+                <ul class="space-y-2 text-gray-700">
+                  <li class="curriculum-item relative pl-6">フルスタックテスト実践① - タスク削除機能の検証</li>
+                  <li class="curriculum-item relative pl-6">AI駆動バグ対策実践① - エッジケース対応のためのリソース存在チェック追加</li>
+                  <li class="curriculum-item relative pl-6">フルスタックテスト実践② - 対策後のタスク削除機能の検証</li>
+                  <li class="curriculum-item relative pl-6">フルスタックテスト実践③ - タスク一覧表示・フィルタリング機能の検証</li>
+                  <li class="curriculum-item relative pl-6">フルスタックテスト実践④ - タスク作成機能の検証</li>
+                  <li class="curriculum-item relative pl-6">AI駆動バグ対策実践② - 入力検証強化のためのバリデーションチェック追加</li>
+                  <li class="curriculum-item relative pl-6">フルスタックテスト実践⑤ - 対策後のタスク作成機能の検証</li>
+                  <li class="curriculum-item relative pl-6">フルスタックテスト実践⑥ - タスク編集機能の検証</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="relative pl-10 pb-12 border-l border-gray-200">
+              <div class="timeline-dot"></div>
+              <h3 class="text-xl font-bold text-indigo-600 mb-3">総括編</h3>
+              <div class="bg-gray-50 rounded-lg p-5 shadow-sm">
+                <ul class="space-y-2 text-gray-700">
+                  <li class="curriculum-item relative pl-6">AI駆動開発を加速する７つのメソッド</li>
+                  <li class="curriculum-item relative pl-6">７つのメソッドの開発スタイル別活用ガイド（Cline, GitHub Copilot, Cursor）</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="#campaign"
+        class="inline-block gradient-bg text-white px-8 py-4 rounded-lg shadow-lg text-lg font-bold cta-button">
+        カリキュラムの詳細に興味がある方はこちら
+        <i class="fas fa-arrow-right ml-2"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section id="tech" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">技術スタック</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto mb-6"></div>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          業界標準のモダン技術スタックとAIツールを組み合わせ、次世代の開発アプローチを実践的に習得します
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Frontend -->
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h3 class="text-xl font-bold text-indigo-600 mb-4">フロントエンド</h3>
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+              <i class="fas fa-cubes text-blue-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">React</p>
+              <p class="text-sm text-gray-600">UI構築のための人気フレームワーク</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+              <i class="fas fa-code text-blue-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">TypeScript</p>
+              <p class="text-sm text-gray-600">型安全なJavaScriptスーパーセット</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+              <i class="fas fa-paint-brush text-blue-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">Tailwind CSS</p>
+              <p class="text-sm text-gray-600">効率的なユーティリティファーストCSSフレームワーク</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Backend -->
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h3 class="text-xl font-bold text-indigo-600 mb-4">バックエンド</h3>
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+              <i class="fas fa-cubes text-green-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">Express.js</p>
+              <p class="text-sm text-gray-600">Node.js向け軽量ウェブアプリケーションフレームワーク</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+              <i class="fas fa-code text-green-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">TypeScript</p>
+              <p class="text-sm text-gray-600">型安全なJavaScriptスーパーセット</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+              <i class="fas fa-wrench text-green-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">Drizzle ORM</p>
+              <p class="text-sm text-gray-600">TypeScript向け高性能ORM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Database -->
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h3 class="text-xl font-bold text-indigo-600 mb-4">データベース</h3>
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
+              <i class="fas fa-database text-indigo-600 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800">PostgreSQL</p>
+              <p class="text-sm text-gray-600">高度なオープンソースリレーショナルデータベース</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16 max-w-3xl mx-auto bg-indigo-50 p-8 rounded-xl border border-indigo-200 shadow-sm">
+        <h3 class="text-xl font-bold text-center mb-6">業界標準のモダン技術スタックを使った実践的開発</h3>
+        <p class="text-gray-700 mb-4">
+          講座で使用するのは、現代の開発現場で広く採用されている主要な技術スタックです。これらを組み合わせたフルスタックアプリケーション開発を通じて、AIツールの効果的な活用方法を習得します。
+        </p>
+        <p class="text-gray-700">
+          TypeScriptを中心としたタイプセーフなコーディング環境で、実践的なプロジェクト開発を体験しながら、AIツールの力を最大限に引き出す手法を学びます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">よくある質問</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto mb-6"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <!-- FAQ Item 1 -->
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3">この講座ではどのAIツールを使用しますか？</h3>
+            <div class="text-gray-700">
+              <p class="mb-3">
+                Replitを使用します。Replitは要件定義からテストまでの完全な開発フローを学ぶのに最適なツールです。
+              </p>
+              <p class="mb-3">
+                AgentとAssistantの両機能を備え、既存コードベースへの質問が無料で利用できる点も魅力です。
+              </p>
+              <p>
+                また、セットアップが簡単なため学習環境としても最適なツールとなっています。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3">学んだスキルは他のAIツールにも応用できますか？</h3>
+            <div class="text-gray-700">
+              <p class="mb-3">
+                はい、十分に応用可能です。この講座で学ぶスキルはプロンプトエンジニアリングの理論をベースにしているため、どのAIツールにも適用できる普遍的な手法です。
+              </p>
+              <p class="mb-3">
+                また、カリキュラムには「開発スタイル別活用ガイド」が含まれており、Cursor、GitHub Copilot、Clineなどの各AIツールの特性に合わせた活用法も学べます。
+              </p>
+              <p>
+                これにより、自分の開発スタイルに最適なツール選択と効果的な活用方法が身につきます。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3">ハンズオンでAIに指示すると動画と異なるコードが生成されますが、どのように進めるのですか？</h3>
+            <div class="text-gray-700">
+              <p class="mb-3">
+                AIの出力に違いが生じるのは自然なことです。本講座では：
+              </p>
+              <ul class="list-disc pl-5 space-y-2 mb-3">
+                <li>要件通りに動作しないコード（バグなど）への対応方法を動画内で詳しく解説</li>
+                <li>学んだ「AIへの効果的な伝え方」のメソッドを使って的確に指示する技術を習得</li>
+                <li>コードレビュー・リファクタリング・バグ対策パートでは講座内で同一のコードベースを提供するため、動画と同じ出発点から実践可能</li>
+              </ul>
+              <p>
+                これにより、出力の違いに左右されず、実践的なAI駆動開発スキルを確実に身につけられます。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3">アプリケーション開発の基礎知識に不安があります。参加できますか？</h3>
+            <div class="text-gray-700">
+              <p class="mb-3">
+                フレームワークを使用したアプリケーション開発の基礎知識とREST APIの基本概念の理解が必要です。
+              </p>
+              <p class="mb-3">
+                基礎知識に不安がある場合は、以下のUdemyコースの受講をお勧めします：
+              </p>
+              <ul class="list-disc pl-5 space-y-2 mb-3">
+                <li>【2024年最新版】Angular & TypeScriptで作る！家電量販店ECアプリ開発実践講座</li>
+                <li>AWSで学ぶ！REST API・サーバーレスアーキテクチャ入門</li>
+                <li>Spring Data JPA & PostgreSQL & Angularで作る！フルスタックECアプリ開発実践講座</li>
+              </ul>
+              <p class="mb-3">
+                ※講座ではフレームワークはReactとExpressを使用しますが、
+                上記コースで学ぶWebアプリケーション開発の基本概念は共通して役立ちます。
+              </p>
+              <p>
+                これらで基礎を固めておくと、本講座の内容をより効果的に学べます。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Item 5 -->
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3">AIツールの利用料は別途かかりますか？</h3>
+            <div class="text-gray-700">
+              <p>
+                はい、本講座で使用するReplitの利用料が別途必要です。
+                Replitには無料利用枠もありますが、ハンズオンを完遂するためには基本的に月額$25のコアプランへの加入が必要となります。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Item 6 -->
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3">料金体系はサブスクリプション型ですか、それとも買い切り型ですか？</h3>
+            <div class="text-gray-700">
+              <p>
+                買い切り型です。一度購入いただくと、全カリキュラムに無期限でアクセスいただけます。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campaign Section -->
+  <section id="campaign" class="py-20 gradient-bg">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-10">
+        <span class="inline-block bg-yellow-400 text-gray-800 px-4 py-2 rounded-full font-bold mb-6 limited-offer">
+          <i class="fas fa-bolt mr-2"></i> 期間限定早割キャンペーン実施中！
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">AI駆動開発実践コース</h2>
+        <p class="text-xl text-white opacity-90 mb-10 max-w-3xl mx-auto">
+          メールアドレスをご登録いただいた方には、開講前の特別割引と講座内容の最新情報をいち早くお届けします
+        </p>
+      </div>
+
+      <div class="max-w-md mx-auto bg-white rounded-xl shadow-xl p-8">
+        <h3 class="text-2xl font-bold mb-6 text-center">早割情報を受け取る</h3>
+
+        <!-- Price -->
+        <div class="text-center mb-6">
+          <h2 class="text-4xl font-bold text-gray-900">¥39,800 <span
+              class="text-sm font-normal text-gray-600">(税込)</span></h2>
+          <p class="text-gray-500 text-sm">通常価格 <span class="line-through">¥59,800</span></p>
+
+          <div class="mt-3 bg-yellow-100 p-3 rounded-md">
+            <p class="text-gray-800">
+              <span class="font-bold">早割特典:</span> ¥39,800から更に<span class="font-bold text-red-600">20%OFF</span>
+            </p>
+          </div>
+
+          <p class="mt-2 text-sm text-indigo-600 bg-indigo-50 p-2 rounded">
+            <i class="fas fa-calendar-alt mr-1"></i>2025年夏公開予定 | 公開前の限定キャンペーンです
+          </p>
+        </div>
+
+        <!-- Kit Form Start -->
+        <div id="kit-form-container">
+          <!-- Kit Form Code -->
+          <script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+          <form action="https://app.kit.com/forms/8057504/subscriptions" class="seva-form formkit-form" method="post"
+            data-sv-form="8057504" data-uid="8d19965e07" data-format="inline" data-version="5"
+            data-options="{&quot;settings&quot;:{&quot;after_subscribe&quot;:{&quot;action&quot;:&quot;message&quot;,&quot;success_message&quot;:&quot;ご登録ありがとうございます！早割情報をお送りしました。&quot;,&quot;redirect_url&quot;:&quot;&quot;},&quot;analytics&quot;:{&quot;google&quot;:null,&quot;fathom&quot;:null,&quot;facebook&quot;:null,&quot;segment&quot;:null,&quot;pinterest&quot;:null,&quot;sparkloop&quot;:null,&quot;googletagmanager&quot;:null},&quot;modal&quot;:{&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;powered_by&quot;:{&quot;show&quot;:true,&quot;url&quot;:&quot;https://kit.com/features/forms?utm_campaign=poweredby&amp;utm_content=form&amp;utm_medium=referral&amp;utm_source=dynamic&quot;},&quot;recaptcha&quot;:{&quot;enabled&quot;:false},&quot;return_visitor&quot;:{&quot;action&quot;:&quot;show&quot;,&quot;custom_content&quot;:&quot;&quot;},&quot;slide_in&quot;:{&quot;display_in&quot;:&quot;bottom_right&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;sticky_bar&quot;:{&quot;display_in&quot;:&quot;top&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15}},&quot;version&quot;:&quot;5&quot;}"
+            min-width="400 500 600 700 800" style="background-color: transparent; border-radius: 8px;">
+            <div data-style="image">
+              <div data-element="column" class="formkit-column" style="display: none;">
+                <!-- 左カラムは非表示にして、代わりに右側だけ表示する -->
+              </div>
+              <div data-element="column" class="formkit-column" style="padding: 0;">
+                <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+                <div data-element="fields" class="seva-fields formkit-fields">
+                  <div class="formkit-field">
+                    <label for="formkit-field-email" class="block text-gray-700 font-medium mb-2">メールアドレス</label>
+                    <input id="formkit-field-email" class="formkit-input" name="email_address" aria-label="メールアドレス"
+                      placeholder="you@example.com" required="" type="email"
+                      style="color: rgb(77, 77, 77); border-color: rgb(227, 227, 227); border-radius: 8px; font-weight: 400;">
+                  </div>
+                  <button data-element="submit" class="formkit-submit formkit-submit"
+                    style="color: rgb(255, 255, 255); background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); border-radius: 8px; font-weight: 700; margin-top: 15px; transition: transform 0.3s ease; width: 100%;">
+                    <div class="formkit-spinner">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <span class="">早割情報を受け取る</span>
+                  </button>
+                </div>
+                <div class="formkit-powered-by-convertkit-container"
+                  style="opacity: 0.5; font-size: 12px; margin-top: 10px; text-align: center;">
+                  <a href="https://kit.com/features/forms?utm_campaign=poweredby&amp;utm_content=form&amp;utm_medium=referral&amp;utm_source=dynamic"
+                    data-element="powered-by" class="formkit-powered-by-convertkit" data-variant="dark" target="_blank"
+                    rel="nofollow">Built with Kit</a>
+                </div>
+              </div>
+            </div>
+            <style>
+              .formkit-form[data-uid="8d19965e07"] * {
+                box-sizing: border-box;
+                font-family: 'Noto Sans JP', sans-serif;
+              }
+
+              .formkit-form[data-uid="8d19965e07"] {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+              }
+
+              /* ボタンのホバーエフェクト */
+              .formkit-form[data-uid="8d19965e07"] .formkit-submit:hover {
+                transform: scale(1.05);
+              }
+
+              /* フォームスタイル */
+              .formkit-form[data-uid="8d19965e07"] .formkit-input {
+                padding: 12px 16px;
+                font-size: 16px;
+                width: 100%;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+                background-color: #ffffff;
+              }
+
+              .formkit-form[data-uid="8d19965e07"] .formkit-submit {
+                padding: 0;
+              }
+
+              .formkit-form[data-uid="8d19965e07"] .formkit-submit>span {
+                padding: 12px 24px;
+                display: block;
+                width: 100%;
+              }
+            </style>
+          </form>
+        </div>
+        <!-- Kit Form End -->
+
+      </div>
+
+      <div class="mt-16 text-center">
+        <div class="inline-block bg-white bg-opacity-10 rounded-lg p-6 max-w-2xl">
+          <p class="text-white text-lg mb-4">
+            <i class="fas fa-quote-left text-yellow-300 mr-2 opacity-75"></i>
+            AIツールをただ使うだけではなく、<strong>開発サイクル全体を加速させる体系的なメソッド</strong>を学びたい方におすすめの講座です
+            <i class="fas fa-quote-right text-yellow-300 ml-2 opacity-75"></i>
+          </p>
+          <p class="text-white font-bold">
+            プロデューサー Shota
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <h2 class="text-2xl font-bold mb-2">AI駆動開発実践コース</h2>
+          <p class="text-gray-400">
+            生産性と品質向上の好循環を実現する<br>
+            短期集中型オンライン講座
+          </p>
+        </div>
+        <div class="flex flex-col md:flex-row gap-8">
+          <div>
+            <h3 class="font-bold text-lg mb-3">リンク</h3>
+            <ul class="space-y-2">
+              <li><a href="#about" class="text-gray-400 hover:text-white transition">AI駆動開発実践コースとは</a></li>
+              <li><a href="#strengths" class="text-gray-400 hover:text-white transition">3つの強み</a></li>
+              <li><a href="#curriculum" class="text-gray-400 hover:text-white transition">カリキュラム</a></li>
+              <li><a href="#tech" class="text-gray-400 hover:text-white transition">技術スタック</a></li>
+              <li><a href="#faq" class="text-gray-400 hover:text-white transition">よくある質問</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+        <p class="text-gray-500">© 2025 AI駆動開発実践コース. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Simple form submission handler
+    document.getElementById('email-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+
+      if (nameInput.value && emailInput.value) {
+        alert('ありがとうございます！早割情報をお送りします。');
+        nameInput.value = '';
+        emailInput.value = '';
+      }
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
